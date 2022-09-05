@@ -76,7 +76,7 @@ test_transforms = A.Compose(
 ) """
 
 
-#上面的似乎是数据增强，我写的是totensor
+#不使用数据增强，库有些问题
 my_transform = transforms.Compose([
     transforms.Resize((416,416)),
     transforms.ToTensor()
