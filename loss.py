@@ -12,16 +12,14 @@ class YoloLoss(nn.Module):
         self.entropy = nn.CrossEntropyLoss()
         self.sigmoid = nn.Sigmoid()
 
-        # Constants signifying how much to pay for each respective part of the loss
         self.lambda_class = 1
         self.lambda_noobj = 10
         self.lambda_obj = 1
         self.lambda_box = 10
 
     def forward(self, predictions, target, anchors):
-        # Check where obj and noobj (we ignore if target == -1)
-        obj = target[..., 0] == 1  # in paper this is Iobj_i
-        noobj = target[..., 0] == 0  # in paper this is Inoobj_i
+        obj = target[..., 0] == 1  
+        noobj = target[..., 0] == 0  
 
         # ======================= #
         #   FOR NO OBJECT LOSS    #
@@ -44,7 +42,7 @@ class YoloLoss(nn.Module):
         #   FOR BOX COORDINATES    #
         # ======================== #
 
-        predictions[..., 1:3] = self.sigmoid(predictions[..., 1:3])  # x,y coordinates
+        predictions[..., 1:3] = self.sigmoid(predictions[..., 1:3]) 
         target[..., 3:5] = torch.log(
             (1e-16 + target[..., 3:5] / anchors)
         )  # width, height coordinates
